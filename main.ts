@@ -5,11 +5,11 @@ const GREEN_CIRCLE = '🟢';
 const RED_CIRCLE = '🔴';
 
 interface SyncthingStatusSettings {
-	interval: number;	// Seconds		
+	check_interval: number;	// Seconds		
 }
 
 const DEFAULT_SETTINGS: SyncthingStatusSettings = {
-	interval: 30	// Seconds
+	check_interval: 30	// Seconds
 }
 
 export default class SyncthingStatus extends Plugin {
@@ -35,7 +35,7 @@ export default class SyncthingStatus extends Plugin {
 			statusBarItemEl.setAttribute('title', 'Disconnected from Syncthing');
 		});
 
-		this.registerInterval(window.setInterval(() => monitor.checkStatus(), this.settings.interval * 1000));
+		this.registerInterval(window.setInterval(() => monitor.checkStatus(), this.settings.check_interval * 1000));
 
 		monitor.checkStatus();
 	}
