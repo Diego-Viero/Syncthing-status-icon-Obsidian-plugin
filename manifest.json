@@ -1,7 +1,7 @@
 {
 	"id": "syncthing-status-icon",
 	"name": "Syncthing status icon",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Displays a status icon displaying whether the syncthing server is on or not.",
 	"author": "Diego Viero",
