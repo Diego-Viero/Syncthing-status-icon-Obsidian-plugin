@@ -21,8 +21,6 @@ export class SyncthingMonitor extends EventEmitter {
       this.hasCheckedInitialState = true; 
     });
 
-    console.log(req);
-
     req.on('error', () => {
       if (this.isRunning) {
         this.isRunning = false;
