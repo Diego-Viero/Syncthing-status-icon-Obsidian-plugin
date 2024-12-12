@@ -1,4 +1,4 @@
-import { SyncthingMonitor } from 'checkStatus';
+import { SyncthingMonitor } from 'src/checkStatus';
 import { Plugin } from 'obsidian';
 
 const GREEN_CIRCLE = '🟢';
