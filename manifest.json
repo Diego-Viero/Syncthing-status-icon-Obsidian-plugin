@@ -3,7 +3,7 @@
 	"name": "Syncthing status icon",
 	"version": "1.0.2",
 	"minAppVersion": "0.15.0",
-	"description": "Displays a status icon displaying whether the syncthing server is on or not.",
+	"description": "Displays a status icon displaying whether the Syncthing server is on or not.",
 	"author": "Diego Viero",
 	"authorUrl": "https://www.github.com/Diego-Viero",
 	"fundingUrl": null,
