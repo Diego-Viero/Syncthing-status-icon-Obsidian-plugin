@@ -1,24 +1,27 @@
 import { SyncthingMonitor } from 'src/checkStatus';
 import { Plugin } from 'obsidian';
+import { ExampleSettingTab } from './settings';
 
 const GREEN_CIRCLE = '🟢';
 const RED_CIRCLE = '🔴';
 
 interface SyncthingStatusSettings {
-	check_interval: number;	// Seconds		
+	pollingTimeout: number;	// Seconds		
+	syncthingToken: string
 }
 
 const DEFAULT_SETTINGS: SyncthingStatusSettings = {
-	check_interval: 30	// Seconds
+	pollingTimeout: 30,	// Seconds
+	syncthingToken: ""
 }
 
 export default class SyncthingStatus extends Plugin {
 	settings: SyncthingStatusSettings;
 
-
 	async onload() {
 		await this.loadSettings();
 
+    this.addSettingTab(new ExampleSettingTab(this.app, this));
 		const monitor = new SyncthingMonitor();
 
 		const statusBarItemEl = this.addStatusBarItem();
@@ -35,9 +38,10 @@ export default class SyncthingStatus extends Plugin {
 			statusBarItemEl.setAttribute('title', 'Disconnected from Syncthing');
 		});
 
-		this.registerInterval(window.setInterval(() => monitor.checkStatus(), this.settings.check_interval * 1000));
-
-		monitor.checkStatus();
+		monitor.listenForEvents(
+			this.settings.syncthingToken, 
+			this.settings.pollingTimeout
+		);
 	}
 
 	async loadSettings() {
