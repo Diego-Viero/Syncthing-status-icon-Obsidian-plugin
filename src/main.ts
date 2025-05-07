@@ -1,47 +1,48 @@
-import { SyncthingMonitor } from 'src/checkStatus';
+import { SyncthingMonitor } from 'src/SyncthingMonitor';
 import { Plugin } from 'obsidian';
-import { ExampleSettingTab } from './settings';
-
-const GREEN_CIRCLE = '🟢';
-const RED_CIRCLE = '🔴';
-
-interface SyncthingStatusSettings {
-	pollingTimeout: number;	// Seconds		
-	syncthingToken: string
-}
+import { SettingsTab } from './settings';
+import { Icon } from 'types/iconEnum';
+import { SyncthingStatusSettings } from 'types/settings';
+import { createWidget } from './widget';
 
 const DEFAULT_SETTINGS: SyncthingStatusSettings = {
 	pollingTimeout: 30,	// Seconds
-	syncthingToken: ""
+	syncthingToken: "",
+	folderId: ""
 }
 
 export default class SyncthingStatus extends Plugin {
 	settings: SyncthingStatusSettings;
+	statusBarItem: HTMLElement;
 
 	async onload() {
-		await this.loadSettings();
 
-    this.addSettingTab(new ExampleSettingTab(this.app, this));
 		const monitor = new SyncthingMonitor();
 
-		const statusBarItemEl = this.addStatusBarItem();
+		await this.loadSettings();
 
-		statusBarItemEl.setText('Loading...');
+    this.addSettingTab(new SettingsTab(this.app, this));
+
+		this.statusBarItem = this.addStatusBarItem();
+		this.statusBarItem.setText('Loading...');
 
 		monitor.on('connected', () => {
-			statusBarItemEl.setText(GREEN_CIRCLE);
-			statusBarItemEl.setAttribute('title', 'Connected to Syncthing');
+			this.statusBarItem.setText(Icon.GREEN_CIRCLE);
+			this.statusBarItem.setAttribute('title', 'Connected to Syncthing');
 		});
 
 		monitor.on('disconnected', () => {
-			statusBarItemEl.setText(RED_CIRCLE);
-			statusBarItemEl.setAttribute('title', 'Disconnected from Syncthing');
+			this.statusBarItem.setText(Icon.RED_CIRCLE);
+			this.statusBarItem.setAttribute('title', 'Disconnected from Syncthing');
 		});
 
 		monitor.listenForEvents(
-			this.settings.syncthingToken, 
-			this.settings.pollingTimeout
+			this.settings, 
+			this.setStatusIcon
 		);
+
+		createWidget(this.statusBarItem);
+
 	}
 
 	async loadSettings() {
@@ -50,5 +51,10 @@ export default class SyncthingStatus extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	// Must be an arrow function to bind `this`
+	setStatusIcon = (icon: Icon) => {
+		this.statusBarItem.setText(icon);
 	}
 }
