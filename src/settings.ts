@@ -1,10 +1,10 @@
-import ExamplePlugin from './main';
+import SyncthingPlugin from './main';
 import { App, PluginSettingTab, Setting } from 'obsidian';
 
-export class ExampleSettingTab extends PluginSettingTab {
-  plugin: ExamplePlugin;
+export class SettingsTab extends PluginSettingTab {
+  plugin: SyncthingPlugin;
 
-  constructor(app: App, plugin: ExamplePlugin) {
+  constructor(app: App, plugin: SyncthingPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
@@ -45,6 +45,20 @@ export class ExampleSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.syncthingToken)
           .onChange(async (value) => {
             this.plugin.settings.syncthingToken = value;
+            await this.plugin.saveSettings();
+          })
+      );
+
+
+    new Setting(containerEl)
+      .setName('Folder ID')
+      .setDesc('Syncthing folder ID, without setting this the plugin will pickup changes from any of your synced folders')
+      .addText((text) =>
+        text
+          .setPlaceholder("")
+          .setValue(this.plugin.settings.folderId)
+          .onChange(async (value) => {
+            this.plugin.settings.folderId = value;
             await this.plugin.saveSettings();
           })
       );
