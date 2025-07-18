@@ -1,9 +1,9 @@
 {
 	"id": "syncthing-status-icon",
 	"name": "Syncthing status icon",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"minAppVersion": "0.15.0",
-	"description": "Displays a status icon displaying whether the Syncthing server is on or not.",
+	"description": "Adds an icon in the status bar displaying Syncthing sync status. It shows a red circle if disconnected, green if connected, and yellow if scanning, not fully synced, or no device is connected. Provides detailed file completion and unsynced file counts, with a hover widget and custom view for more information.",
 	"author": "Diego Viero",
 	"authorUrl": "https://www.github.com/Diego-Viero",
 	"fundingUrl": null,
