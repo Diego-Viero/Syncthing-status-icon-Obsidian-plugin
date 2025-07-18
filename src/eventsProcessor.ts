@@ -2,8 +2,11 @@ import { SyncthingMonitor } from "./SyncthingMonitor";
 import { EventType } from "../types/events/eventType";
 import { SyncthingEvent } from "types/events";
 import { Icon } from "types/iconEnum";
+import { Notice } from "obsidian";
 
 export const eventProcessor = (event: SyncthingEvent, monitor: SyncthingMonitor) => {
+
+  console.log(event.type, event.data);
 
   switch (event.type) {
 
@@ -14,8 +17,14 @@ export const eventProcessor = (event: SyncthingEvent, monitor: SyncthingMonitor)
       if (monitor.folderId && event.data.folder !== monitor.folderId)
         break;
 
+      console.log(event.data);
       const completion = event.data.completion;
-      monitor.setCompletion(completion); // Percentage of synced files
+      const globalItems = event.data.globalItems;
+      const needItems = event.data.needItems;
+      console.log(completion);
+      monitor.fileCompletion = completion; // Percentage of synced files
+      monitor.globalItems = globalItems;
+      monitor.needItems = needItems;
 
       if (completion !== 100) {
         monitor.setStatusIcon(Icon.YELLOW_CIRCLE)
@@ -32,7 +41,7 @@ export const eventProcessor = (event: SyncthingEvent, monitor: SyncthingMonitor)
         break;
 
       const newStatus = event.data.to;  //idle, scanning, scan-waiting
-      monitor.setStatus(newStatus) 
+      monitor.status = newStatus;
 
       if (newStatus === "scanning") {
         monitor.setStatusIcon(Icon.YELLOW_CIRCLE);
@@ -42,9 +51,10 @@ export const eventProcessor = (event: SyncthingEvent, monitor: SyncthingMonitor)
       break;
 
     // --- Device Disconnected ---
+    //TODO not triggered when internet connection is lost
     case EventType.DeviceDisconnected:
       monitor.setStatusIcon(Icon.RED_CIRCLE);
-      monitor.setStatus("Disconnected");
+      monitor.status = "Disconnected";
       break;
 
   }
