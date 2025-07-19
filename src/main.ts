@@ -1,10 +1,12 @@
 import { SyncthingMonitor } from 'src/SyncthingMonitor';
-import { Plugin, WorkspaceLeaf } from 'obsidian';
+import { addIcon, Plugin, WorkspaceLeaf } from 'obsidian';
 import { SettingsTab } from './settings';
 import { Icon } from 'types/iconEnum';
 import { SyncthingStatusSettings } from 'types/settings';
 import { createWidget } from './widget';
 import { SyncthingMenuView, VIEW_TYPE_SYNCTHING } from './SyncthingMenuView';
+
+import syncthingIcon from './syncthingIcon';
 
 const DEFAULT_SETTINGS: SyncthingStatusSettings = {
 	pollingTimeout: 1,	// Seconds
@@ -19,11 +21,10 @@ export default class SyncthingStatus extends Plugin {
 	async onload() {
 
 		const monitor = new SyncthingMonitor();
-		console.log('test')
 
 		await this.loadSettings();
 
-		this.addSettingTab(new SettingsTab(this.app, this));
+		this.addSettingTab(new SettingsTab(this.app, this, monitor));
 
 
 		this.registerView(
@@ -31,8 +32,10 @@ export default class SyncthingStatus extends Plugin {
 			(leaf) => new SyncthingMenuView(leaf, monitor)
 		);
 
-		//TODO: add syncthing icon
-		this.addRibbonIcon('dice', 'Activate view', () => {
+
+		addIcon('syncthing-icon', syncthingIcon);
+
+		this.addRibbonIcon('syncthing-icon', 'Activate view', () => {
 			this.activateView();
 		});
 
@@ -74,6 +77,7 @@ export default class SyncthingStatus extends Plugin {
 	}
 
 	async activateView() {
+
 		const { workspace } = this.app;
 
 		let leaf: WorkspaceLeaf | null = null;
@@ -90,8 +94,6 @@ export default class SyncthingStatus extends Plugin {
 
 		if (leaf)
 			workspace.revealLeaf(leaf);
-		else
-			console.error(`No leaf found: ${leaf}`)
 	}
 
 	async saveSettings() {
