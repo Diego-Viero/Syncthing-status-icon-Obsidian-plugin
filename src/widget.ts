@@ -23,14 +23,31 @@ export const createWidget = (containerEl: HTMLElement, monitor: SyncthingMonitor
   // Function to update the widget content
   const updateWidgetContent = () => {
 
+    if (monitor.status === 'Invalid API key' || !monitor.isTokenSet) {
+      completionLine.textContent = '';
+      totalFilesLine.textContent = '';
+      unsyncedFilesLine.textContent = '';
+      connectedDevicesLine.textContent = '';
+
+      if (!monitor.isTokenSet)
+        statusLine.textContent = 'Please insert your Syncthing API key in the plugin settings.';
+
+      else if (monitor.status === 'Invalid API key')
+        statusLine.textContent = 'Invalid Syncthing API key. Please check your settings.';
+
+      return;
+    }
+
+
+
     const parsedCompletionPercentage = monitor.fileCompletion !== undefined
       ? parseFloat(monitor.fileCompletion.toFixed(2))
       : undefined;
 
-    statusLine.textContent = `Status: ${monitor.status}`;
-    completionLine.textContent = `Files synced: ${parsedCompletionPercentage ?? 'N/A'}%`;
+    //statusLine.textContent = `Status: ${monitor.status}`;
+    completionLine.textContent = `Sync status: ${parsedCompletionPercentage ?? 'N/A'}%`;
     unsyncedFilesLine.textContent = `Files not synced: ${monitor.needItems ?? 'N/A'}`;
-    connectedDevicesLine.textContent = `Connected devices: ${monitor.connectedDevicesCount}`;
+    connectedDevicesLine.textContent = `Connected devices: ${monitor.connectedDevicesCount}/${monitor.availableDevices}`;
   };
 
   // Initial update
