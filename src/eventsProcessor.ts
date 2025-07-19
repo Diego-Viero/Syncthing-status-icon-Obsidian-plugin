@@ -17,11 +17,9 @@ export const eventProcessor = (event: SyncthingEvent, monitor: SyncthingMonitor)
       if (monitor.folderId && event.data.folder !== monitor.folderId)
         break;
 
-      console.log(event.data);
       const completion = event.data.completion;
       const globalItems = event.data.globalItems;
       const needItems = event.data.needItems;
-      console.log(completion);
       monitor.fileCompletion = completion; // Percentage of synced files
       monitor.globalItems = globalItems;
       monitor.needItems = needItems;
