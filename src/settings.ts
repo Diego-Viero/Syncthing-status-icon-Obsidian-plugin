@@ -1,12 +1,15 @@
 import SyncthingPlugin from './main';
 import { App, PluginSettingTab, Setting } from 'obsidian';
+import { SyncthingMonitor } from './SyncthingMonitor';
 
 export class SettingsTab extends PluginSettingTab {
   plugin: SyncthingPlugin;
+  monitor: SyncthingMonitor;
 
-  constructor(app: App, plugin: SyncthingPlugin) {
+  constructor(app: App, plugin: SyncthingPlugin, monitor: SyncthingMonitor) {
     super(app, plugin);
     this.plugin = plugin;
+    this.monitor = monitor;
   }
 
   display(): void {
@@ -29,6 +32,7 @@ export class SettingsTab extends PluginSettingTab {
             if (!Number.isNaN(parsedValue)) {
               this.plugin.settings.pollingTimeout = parsedValue;
               await this.plugin.saveSettings();
+              this.monitor.updateSettings(this.plugin.settings);
             } else {
               // TODO display warning/error invalid value
               console.log("Couldn't parse number");
@@ -38,7 +42,7 @@ export class SettingsTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('Syncthing token')
-      .setDesc('API token to use Syncthing API')
+      .setDesc('API token to use Syncthing API. You can find this in Syncthing UI: Actions (top right) -> Settings -> GUI -> API Key.')
       .addText((text) =>
         text
           .setPlaceholder("")
@@ -46,6 +50,7 @@ export class SettingsTab extends PluginSettingTab {
           .onChange(async (value) => {
             this.plugin.settings.syncthingToken = value;
             await this.plugin.saveSettings();
+            this.monitor.updateSettings(this.plugin.settings);
           })
       );
 
@@ -60,6 +65,7 @@ export class SettingsTab extends PluginSettingTab {
           .onChange(async (value) => {
             this.plugin.settings.folderId = value;
             await this.plugin.saveSettings();
+            this.monitor.updateSettings(this.plugin.settings);
           })
       );
   }
