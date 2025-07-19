@@ -8,3 +8,83 @@
   z-index: 9999;
   display: none;
 }
+
+.syncthing-status-view {
+  padding: 10px;
+  font-family: var(--font-family);
+  color: var(--text-normal);
+}
+
+.syncthing-status-view h4 {
+  color: var(--text-title-h1);
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 5px;
+}
+
+.syncthing-status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px; /* Increased separation between items */
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--background-modifier-border-hover);
+}
+
+.syncthing-status-item:last-child {
+  border-bottom: none;
+}
+
+.syncthing-no-border {
+  border-bottom: none !important;
+  margin-bottom: 0px !important; /* Remove margin to keep it close */
+  padding-bottom: 0px !important; /* Remove padding to keep it close */
+}
+
+.syncthing-status-label {
+  font-weight: bold;
+  color: var(--text-muted);
+  flex-basis: 60%;
+}
+
+.syncthing-status-value {
+  text-align: right;
+  flex-basis: 40%;
+  color: var(--text-normal);
+}
+
+.syncthing-status-value.status-connected {
+  color: var(--color-green);
+}
+
+.syncthing-status-value.status-disconnected {
+  color: var(--color-red);
+}
+
+.syncthing-status-value.status-syncing {
+  color: var(--color-orange);
+}
+
+.syncthing-progress-bar-container {
+  width: 100%;
+  background-color: var(--background-modifier-box-shadow);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px; /* Keep close to sync status */
+  margin-bottom: 15px; /* Add space after progress bar */
+}
+
+.syncthing-progress-bar {
+  height: 10px;
+  background-color: var(--interactive-accent);
+  width: 0%;
+  border-radius: 5px;
+  transition: width 0.5s ease-in-out;
+}
+
+.syncthing-small-text {
+  font-size: 0.8em; /* Slightly smaller font size */
+  color: var(--text-muted); /* Optional: make it slightly muted */
+  font-weight: 100;
+}
