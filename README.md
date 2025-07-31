@@ -24,7 +24,7 @@ Tailor the plugin's behavior to your needs:
 
 ## Requirements
 - A running Syncthing instance (typically on `localhost:8384`).
-- An API key generated from your Syncthing interface (Settings -> GUI -> API Key).
+- An API key generated from your Syncthing interface (Settings -> General -> API Key).
 
 ## How It Works
 1. The plugin periodically sends requests to your local Syncthing instance (`localhost:8384`).

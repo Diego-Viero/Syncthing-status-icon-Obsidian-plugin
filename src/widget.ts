@@ -22,6 +22,7 @@ export const createWidget = (containerEl: HTMLElement, monitor: SyncthingMonitor
 
   // Function to update the widget content
   const updateWidgetContent = () => {
+    statusLine.textContent = ''; 
 
     if (monitor.status === 'Invalid API key' || !monitor.isTokenSet) {
       completionLine.textContent = '';

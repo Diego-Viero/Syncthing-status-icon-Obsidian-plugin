@@ -42,7 +42,7 @@ export class SettingsTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('Syncthing token')
-      .setDesc('API token to use Syncthing API. You can find this in Syncthing UI: Actions (top right) -> Settings -> GUI -> API Key.')
+      .setDesc('API token to use Syncthing API. You can find this in Syncthing UI: Actions (top right) -> Settings -> General -> API Key.')
       .addText((text) =>
         text
           .setPlaceholder("")
