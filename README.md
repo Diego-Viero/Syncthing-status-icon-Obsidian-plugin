@@ -2,6 +2,20 @@
 
 This Obsidian plugin enhances your Syncthing integration by providing real-time synchronization status directly within your Obsidian vault. It adds a dynamic icon to the status bar and offers a dedicated view with detailed sync information, ensuring you're always aware of your file synchronization health.
 
+![Plugin Downloads](https://img.shields.io/badge/dynamic/json?label=Plugin%20Downloads&query=%24%5B%22syncthing-status-icon%22%5D.downloads&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json&color=7f6df2)
+
+
+# Prevent API Key from Syncing
+
+> **Avoid syncing your API key**  
+> To prevent your API key and other local settings from being synced across devices, create a `.stignore` file in the root of your Obsidian vault (if you don't already have one) containing:
+> ```
+> /.obsidian/plugins/syncthing-status-icon/data.json
+> ```
+> This ensures that your plugin’s settings file remains local to each device.
+
+---
+
 ## Features
 
 ### Status Bar Icon
@@ -24,7 +38,7 @@ Tailor the plugin's behavior to your needs:
 
 ## Requirements
 - A running Syncthing instance (typically on `localhost:8384`).
-- An API key generated from your Syncthing interface (Settings -> General -> API Key).
+- An API key generated from your Syncthing interface (Settings → General → API Key).
 
 ## How It Works
 1. The plugin periodically sends requests to your local Syncthing instance (`localhost:8384`).
@@ -34,7 +48,7 @@ Tailor the plugin's behavior to your needs:
 
 ## Installation
 From the Obsidian Community Plugins:
-- Open Settings > Community Plugins.
+- Open Settings → Community Plugins.
 - Click Browse, search for “Syncthing Sync Status”.
 - Click Install, then enable the plugin.
 - **Important**: Open the plugin settings and enter your Syncthing API token. Optionally, configure the polling timeout and folder ID.
