@@ -64,8 +64,6 @@ export default class SyncthingStatus extends Plugin {
 			callback: () => {
 
 				this.activateView();
-				//TODO open SyncthingView
-				//new ExampleModal(this.app, monitor).open();
 			},
 		});
 
