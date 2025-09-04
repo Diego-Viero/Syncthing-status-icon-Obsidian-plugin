@@ -6,8 +6,6 @@ import { Notice } from "obsidian";
 
 export const eventProcessor = (event: SyncthingEvent, monitor: SyncthingMonitor) => {
 
-  console.log(event.type, event.data);
-
   switch (event.type) {
 
     // --- Folder Completion ---
